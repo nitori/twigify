@@ -1,0 +1,9 @@
+
+{% macro columns(cell, rowLoop, colLoop, data) %}
+    {% if rowLoop.first and (data.table_header_position == 1 or (colLoop.first and data.table_header_position == 2)) or colLoop.first and data.table_header_position == 2 %}
+        {% set table_type = 'th' %}
+    {% else %}
+        {% set table_type = 'td' %}
+    {% endif %}
+    <{{ table_type }}>{% if cell %}{{ cell|nl2br }}{% else %}&nbsp;{% endif %}</{{ table_type }}>
+{% endmacro %}

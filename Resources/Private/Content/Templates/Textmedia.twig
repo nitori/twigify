@@ -1,0 +1,31 @@
+{% import "Macros/MediaGallery.twig" as m %}
+{% import "Macros/Header.twig" as h %}
+{% import "Macros/Footer.twig" as f %}
+
+
+<div id="c{{ data.uid }}"{% if data.css_classes %} class="{{ data.css_classes|split(',')|join(' ') }}"{% endif %}>
+    {% if not gallery.position.noWrap %}
+        {{ h.header(data) }}
+    {% endif %}
+
+    <div class="ce-textpic ce-{{ gallery.position.horizontal }} ce-{{ gallery.position.vertical }}{% if gallery.position.noWrap %} ce-nowrap{% endif %}">
+        {% if gallery.rows and gallery.position.vertical != 'below' %}
+            {{ m.media_gallery(gallery, data) }}
+        {% endif %}
+
+        <div class="ce-bodytext">
+            {% if gallery.position.noWrap %}
+                {{ h.header(data) }}
+            {% endif %}
+            {% if data.bodytext %}
+                {{ data.bodytext|rte }}
+            {% endif %}
+        </div>
+
+        {% if gallery.rows and gallery.position.vertical == 'below' %}
+            {{ m.media_gallery(gallery, data) }}
+        {% endif %}
+    </div>
+
+    {{ f.footer(data) }}
+</div>

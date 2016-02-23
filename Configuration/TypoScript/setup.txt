@@ -1,0 +1,13 @@
+
+lib.fluidContent = TWIGTEMPLATE
+lib.fluidContent {
+    templateRootPaths >
+    templateRootPaths.10 = EXT:twigify/Resources/Private/Content/Templates/
+    rootPaths >
+    rootPaths.10 = EXT:twigify/Resources/Private/Content/
+}
+
+#tt_content.table = TWIGTEMPLATE
+#tt_content.textmedia = TWIGTEMPLATE
+#tt_content.header = TWIGTEMPLATE
+#tt_content.html = TWIGTEMPLATE

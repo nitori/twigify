@@ -1,0 +1,8 @@
+
+{% macro footer(data) %}
+    {% if data.linkToTop %}
+    <p>
+        <a href="#top">{{ 'toTop'|l(extensionName='fluid_styled_content') }}</a>
+    </p>
+    {% endif %}
+{% endmacro %}
