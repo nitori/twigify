@@ -2,7 +2,7 @@
 
 namespace LFM\Twigify\ContentObject;
 
-use LFM\Twigify\Extension\TwigPrimaryExtension;
+use LFM\Twigify\Extension\LfmExtension;
 use LFM\Twigify\Extension\WithExtension;
 use LFM\Twigify\Filters as F;
 
@@ -46,15 +46,15 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
             'auto_reload' => true,
         ]);
 
-        $twigExtension = new TwigPrimaryExtension($view);
-        $twig->addExtension($twigExtension);
+        $lfmExtension = new LfmExtension($view);
+        $twig->addExtension($lfmExtension);
         $twig->addExtension(new WithExtension($view));
 
         $format = $conf['format'] ? $conf['format'] : 'twig';
         $template = $twig->loadTemplate($conf['templateName'].'.'.$format);
         $source = $template->render($variables);
 
-        foreach($twigExtension->getDebugArguments() as $arguments) {
+        foreach($lfmExtension->getDebugArguments() as $arguments) {
             DebuggerUtility::var_dump(...$arguments);
         }
 

@@ -9,7 +9,7 @@
 namespace LFM\Twigify\Extension;
 use LFM\Twigify\Filters as F;
 
-class TwigPrimaryExtension extends AbstractExtension
+class LfmExtension extends AbstractExtension
 {
     /**
      * @var \LFM\Twigify\Filters\DebugFilter
