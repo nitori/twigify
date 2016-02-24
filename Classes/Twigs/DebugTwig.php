@@ -6,10 +6,10 @@
  * Time: 12:54
  */
 
-namespace LFM\Twigify\Filters;
+namespace LFM\Twigify\Twigs;
 
 
-class DebugFilter extends AbstractFilter
+class DebugTwig extends AbstractTwig
 {
     protected $debugArguments = [];
 

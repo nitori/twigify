@@ -6,13 +6,13 @@
  * Time: 13:02
  */
 
-namespace LFM\Twigify\Filters;
+namespace LFM\Twigify\Twigs;
 
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class RteFilter extends AbstractFilter
+class RteTwig extends AbstractTwig
 {
 
     /**

@@ -6,15 +6,13 @@
  * Time: 13:02
  */
 
-namespace LFM\Twigify\Filters;
+namespace LFM\Twigify\Twigs;
 
 
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException;
-use TYPO3\CMS\Fluid\ViewHelpers\TranslateViewHelper;
 
-class LFilter extends AbstractFilter
+class LTwig extends AbstractTwig
 {
     /**
      * @param $key string

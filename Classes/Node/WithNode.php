@@ -15,13 +15,13 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 class WithNode extends \Twig_Node
 {
     public function __construct(
-        \Twig_Node_Expression $value,
-        \Twig_NodeInterface $name,
-        \Twig_NodeInterface $body,
+        \Twig_Node $value,
+        \Twig_Node $target,
+        \Twig_Node $body,
         $lineno,
         $tag = null)
     {
-        parent::__construct(['value' => $value, 'name' => $name, 'body' => $body], ['safe' => true], $lineno, $tag);
+        parent::__construct(['value' => $value, 'name' => $target, 'body' => $body], ['safe' => true], $lineno, $tag);
     }
 
     public function compile(Twig_Compiler $compiler)
@@ -32,10 +32,6 @@ class WithNode extends \Twig_Node
         $value = $this->getNode('value');
 
         $key = $name->nodes[0]->getAttribute('name');
-
-        $compiler->write("\$_tmpWithValue = ");
-        $compiler->subcompile($value);
-        $compiler->raw(";\n");
 
         $compiler->write("call_user_func(function(\$context){\n")->indent();
 

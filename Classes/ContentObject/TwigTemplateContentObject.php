@@ -2,9 +2,9 @@
 
 namespace LFM\Twigify\ContentObject;
 
+use LFM\Twigify\Environment\LfmEnvironment;
 use LFM\Twigify\Extension\LfmExtension;
 use LFM\Twigify\Extension\WithExtension;
-use LFM\Twigify\Filters as F;
 
 use LFM\Twigify\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -26,7 +26,6 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
         $view = new StandaloneView();
         $variables = $this->getContentObjectVariables($conf);
         $variables = $this->contentDataProcessor->process($this->cObj, $conf, $variables);
-        $variables['_all'] = $variables;
 
         $templatePaths = [];
         foreach($conf['templateRootPaths.'] as $path) {
@@ -41,17 +40,21 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
         }
 
         $loader = new \Twig_Loader_Filesystem($templatePaths);
-        $twig = new \Twig_Environment($loader, [
+        $twig = new LfmEnvironment($loader, [
             //'cache' => GeneralUtility::getFileAbsFileName('typo3temp/Cache/Code/twig_template'),
             'auto_reload' => true,
         ]);
 
-        $lfmExtension = new LfmExtension($view);
+        $lfmExtension = new LfmExtension();
+        $lfmExtension->setView($view);
+
         $twig->addExtension($lfmExtension);
         $twig->addExtension(new WithExtension($view));
 
         $format = $conf['format'] ? $conf['format'] : 'twig';
         $template = $twig->loadTemplate($conf['templateName'].'.'.$format);
+
+        $variables['_all'] = $variables;
         $source = $template->render($variables);
 
         foreach($lfmExtension->getDebugArguments() as $arguments) {

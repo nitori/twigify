@@ -6,12 +6,10 @@
  * Time: 13:02
  */
 
-namespace LFM\Twigify\Filters;
+namespace LFM\Twigify\Twigs;
 
 
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-
-class GetUrlFilter extends AbstractFilter
+class GetUrlTwig extends AbstractTwig
 {
     /**
      * @param $file \TYPO3\CMS\Core\Resource\FileInterface

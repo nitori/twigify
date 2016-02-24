@@ -2,18 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: Lars_Soendergaard
- * Date: 19.02.2016
- * Time: 12:54
+ * Date: 23.02.2016
+ * Time: 14:08
  */
 
-namespace LFM\Twigify\Filters;
+namespace LFM\Twigify\Twigs;
 
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Service\ImageService;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
-abstract class AbstractFilter extends \Twig_SimpleFilter
+abstract class AbstractTwig implements TwigInterface
 {
     /**
      * @var \LFM\Twigify\View\AbstractTemplateView
@@ -37,11 +34,6 @@ abstract class AbstractFilter extends \Twig_SimpleFilter
     public function __construct($view, array $options = []) {
         $this->view = $view;
         $this->objectManager = $this->view->getObjectManager();
-
-        $className = array_pop(explode('\\', get_class($this)));
-        $classBaseName = substr($className, 0, strlen($className)-6);
-        $classBaseName = GeneralUtility::camelCaseToLowerCaseUnderscored($classBaseName);
-        parent::__construct($classBaseName, array($this, 'render'), $options);
     }
 
     /**
@@ -68,5 +60,9 @@ abstract class AbstractFilter extends \Twig_SimpleFilter
     public function setRenderingContext($renderingContext)
     {
         $this->renderingContext = $renderingContext;
+    }
+
+    public function __toString() {
+        return '<'.get_class($this).'>';
     }
 }

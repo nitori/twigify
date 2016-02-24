@@ -6,14 +6,12 @@
  * Time: 13:02
  */
 
-namespace LFM\Twigify\Filters;
+namespace LFM\Twigify\Twigs;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use TYPO3\CMS\Fluid\ViewHelpers\MediaViewHelper;
 
-class MediaFilter extends AbstractFilter
+class MediaTwig extends AbstractTwig
 {
 
     /**
