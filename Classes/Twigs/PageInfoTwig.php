@@ -12,6 +12,7 @@ class PageInfoTwig extends AbstractTwig
 {
     /**
      * @param $pageUid integer
+     * @return array
      */
     public function render($pageUid) {
         /** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */

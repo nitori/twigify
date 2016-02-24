@@ -8,6 +8,8 @@
 
 namespace LFM\Twigify\Extension;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 abstract class AbstractExtension extends \Twig_Extension
 {
     /**
@@ -20,12 +22,22 @@ abstract class AbstractExtension extends \Twig_Extension
      */
     protected $twigs;
 
+    public function getName() {
+        $classParts = explode('\\', get_class($this));
+        $className = GeneralUtility::camelCaseToLowerCaseUnderscored(array_pop($classParts));
+        $firstParts = array_slice(explode('_', $className), 0, -1);
+        return GeneralUtility::underscoredToLowerCamelCase(implode('_', $firstParts));
+    }
+
     public function setView(\LFM\Twigify\View\AbstractTemplateView $view) {
         $this->view = $view;
     }
 
     public function getView() {
         return $this->view;
+    }
+
+    public function initialiseTwigs() {
     }
 
     public function getTwig($name) {

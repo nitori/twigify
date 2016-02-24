@@ -47,6 +47,7 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
 
         $lfmExtension = new LfmExtension();
         $lfmExtension->setView($view);
+        $lfmExtension->initialiseTwigs();
 
         $twig->addExtension($lfmExtension);
         $twig->addExtension(new WithExtension($view));
