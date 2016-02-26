@@ -11,3 +11,13 @@ lib.fluidContent {
 #tt_content.textmedia = TWIGTEMPLATE
 #tt_content.header = TWIGTEMPLATE
 #tt_content.html = TWIGTEMPLATE
+
+tt_content.table {
+    dataProcessing {
+        20 = LFM\Twigify\DataProcessing\FlexFormProcessor
+        20 {
+            fieldName = pi_flexform
+            as = flexdata
+        }
+    }
+}

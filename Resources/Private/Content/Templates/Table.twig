@@ -2,6 +2,7 @@
 {% import "Macros/Table/Columns.twig" as c %}
 
 {% block content %}
+
     {% if table %}
         <table class="ce-table table table-striped">
             {% if data.table_caption %}
@@ -10,7 +11,7 @@
             {% for row in table %}
 
                 {% if loop.first %}
-                    {% if data.table_header_position == 1 %}
+                    {% if flexdata.acctables_headerpos == 'top' %}
                         <thead>
                     {% else %}
                         <tbody>
@@ -25,12 +26,12 @@
                 <tr>
                     {% set rowLoop = loop %}
                     {% for cell in row %}
-                        {{ c.columns(cell, rowLoop, loop, data) }}
+                        {{ c.columns(cell, rowLoop, loop, data, flexdata) }}
                     {% endfor %}
                 </tr>
 
                 {% if loop.first %}
-                    {% if data.table_header_position == 1 %}
+                    {% if flexdata.acctables_headerpos == 'top' %}
                         </thead>
                         <tbody>
                     {% endif %}
