@@ -6,6 +6,7 @@ use LFM\Twigify\Environment\LfmEnvironment;
 use LFM\Twigify\Extension\LfmExtension;
 use LFM\Twigify\Extension\WithExtension;
 
+use LFM\Twigify\Loader\LfmLoader;
 use LFM\Twigify\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
@@ -28,21 +29,25 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
         $variables = $this->contentDataProcessor->process($this->cObj, $conf, $variables);
 
         $templatePaths = [];
-        foreach($conf['templateRootPaths.'] as $path) {
-            if(trim($path)) {
-                $templatePaths[] = GeneralUtility::getFileAbsFileName($path);
+        if(is_array($conf['templateRootPaths.'])) {
+            foreach ($conf['templateRootPaths.'] as $path) {
+                if (trim($path)) {
+                    $templatePaths[] = GeneralUtility::getFileAbsFileName($path);
+                }
             }
         }
         foreach($conf['rootPaths.'] as $path) {
             if(trim($path)) {
-                $templatePaths[] = GeneralUtility::getFileAbsFileName($path);
+                $path = GeneralUtility::getFileAbsFileName($path);
+                $templatePaths[] = $path;
             }
         }
 
-        $loader = new \Twig_Loader_Filesystem($templatePaths);
+        $loader = new LfmLoader($templatePaths);
         $twig = new LfmEnvironment($loader, [
             //'cache' => GeneralUtility::getFileAbsFileName('typo3temp/Cache/Code/twig_template'),
             'auto_reload' => true,
+            'base_template_class' => \LFM\Twigify\Template\LfmTemplate::class,
         ]);
 
         $lfmExtension = new LfmExtension();
