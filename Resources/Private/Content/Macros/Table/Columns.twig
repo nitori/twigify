@@ -1,6 +1,6 @@
 
 {% macro columns(cell, rowLoop, colLoop, data, flexdata) %}
-    {% if rowLoop.first and (flexdata.acctables_headerpos == 'top' or (colLoop.first and flexdata.acctables_headerpos == 'left')) or colLoop.first and flexdata.acctables_headerpos == 'left' %}
+    {% if rowLoop.first and (flexdata.sDEF.acctables_headerpos == 'top' or (colLoop.first and flexdata.sDEF.acctables_headerpos == 'left')) or colLoop.first and flexdata.sDEF.acctables_headerpos == 'left' %}
         {% set table_type = 'th' %}
     {% else %}
         {% set table_type = 'td' %}

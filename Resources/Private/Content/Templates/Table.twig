@@ -11,7 +11,7 @@
             {% for row in table %}
 
                 {% if loop.first %}
-                    {% if flexdata.acctables_headerpos == 'top' %}
+                    {% if flexdata.sDEF.acctables_headerpos == 'top' %}
                         <thead>
                     {% else %}
                         <tbody>
@@ -31,7 +31,7 @@
                 </tr>
 
                 {% if loop.first %}
-                    {% if flexdata.acctables_headerpos == 'top' %}
+                    {% if flexdata.sDEF.acctables_headerpos == 'top' %}
                         </thead>
                         <tbody>
                     {% endif %}
