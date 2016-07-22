@@ -1,4 +1,6 @@
 
-# Name of the Extension: twigify
+# twigify
 
-Adds Twig Templating Engine of Symfony to TYPO3.
+Adds Twig Templating Engine of Symfony to TYPO3 7.6.x
+
+***This extension is experimental. There is no warranty for this software.***
