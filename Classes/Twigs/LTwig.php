@@ -28,7 +28,7 @@ class LTwig extends AbstractTwig
         //key="toTop" arguments="" default="" htmlEscape="" id="" extensionName="fluid_styled_content"
 
         if ((string)$key === '') {
-            throw new InvalidVariableException('An argument "key" or "id" has to be provided', 1351584844);
+            throw new InvalidVariableException('The argument "key" has to be provided', 1351584844);
         }
 
         $request = $this->view->getControllerContext()->getRequest();
