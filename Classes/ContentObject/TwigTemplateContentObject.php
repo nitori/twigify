@@ -6,6 +6,7 @@ use LFM\Twigify\Extension\LfmExtension;
 
 use LFM\Twigify\Template\LfmTemplate;
 use LFM\Twigify\View\StandaloneView;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject;
@@ -35,9 +36,15 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
             }
         }
 
+        $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
+        /** @var \TYPO3\CMS\Core\Cache\Frontend\PhpFrontend $cacheInstance */
+        $cacheInstance = $cacheManager->getCache('twigify');
+        /** @var \TYPO3\CMS\Core\Cache\Backend\FileBackend $backend */
+        $backend = $cacheInstance->getBackend();
+
         $loader = new \Twig_Loader_Filesystem($templatePaths);
         $twig = new \Twig_Environment($loader, [
-            //'cache' => GeneralUtility::getFileAbsFileName('typo3temp/var/Cache/Code/twig_template'),
+            'cache' => $backend->getCacheDirectory(),
             'auto_reload' => true,
             'base_template_class' => LfmTemplate::class,
         ]);
