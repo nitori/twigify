@@ -1,5 +1,5 @@
 <?php
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Twigiy',
     'description' => 'Adds Twig templating engine to TYPO3.',
     'version' => '0.0.1',
@@ -7,11 +7,20 @@ $EM_CONF[$_EXTKEY] = array(
     'author' => 'Lars Peter Søndergaard',
     'author_email' => 'lars.peter@sondergaard.de',
     'category' => 'fe',
-    'constraints' => array(
-        'depends' => array(
+    'constraints' => [
+        'depends' => [
             'typo3' => '8.7.0-8.7.99',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(),
-    ),
-);
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
+    "autoload" => [
+        "classmap" => [
+            "Contrib/twig/lib/",
+        ],
+        "psr-4" => [
+            "LFM\\Twigify\\" => "Classes/",
+            "Twig\\" => "Contrib/twig/src/",
+        ],
+    ],
+];

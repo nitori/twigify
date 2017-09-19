@@ -1,0 +1,12 @@
+{
+  "name": "lfm/lfmtheme",
+  "authors": [
+    {
+      "name": "Lars Peter Søndergaard",
+      "email": "l.soendergaard@lichtflut-medien.de"
+    }
+  ],
+  "require": {
+    "twig/twig": "2.4.*"
+  }
+}

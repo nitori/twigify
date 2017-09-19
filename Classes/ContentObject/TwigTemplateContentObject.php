@@ -2,10 +2,8 @@
 
 namespace LFM\Twigify\ContentObject;
 
-use LFM\Twigify\Environment\LfmEnvironment;
 use LFM\Twigify\Extension\LfmExtension;
 
-use LFM\Twigify\Loader\LfmLoader;
 use LFM\Twigify\Template\LfmTemplate;
 use LFM\Twigify\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -37,9 +35,9 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
             }
         }
 
-        $loader = new LfmLoader($templatePaths);
-        $twig = new LfmEnvironment($loader, [
-            //'cache' => GeneralUtility::getFileAbsFileName('typo3temp/Cache/Code/twig_template'),
+        $loader = new \Twig_Loader_Filesystem($templatePaths);
+        $twig = new \Twig_Environment($loader, [
+            //'cache' => GeneralUtility::getFileAbsFileName('typo3temp/var/Cache/Code/twig_template'),
             'auto_reload' => true,
             'base_template_class' => LfmTemplate::class,
         ]);
