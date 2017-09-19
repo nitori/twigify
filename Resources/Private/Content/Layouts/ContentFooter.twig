@@ -1,6 +1,0 @@
-{% import "Macros/Footer.twig" as f %}
-
-<div id="c{{ data.uid }}"{% if data.css_classes %} class="{{ data.css_classes|split(',')|join(' ') }}"{% endif %}>
-	{% block content %}{% endblock %}
-	{% block footer %}{{ f.footer(data) }}{% endblock %}
-</div>

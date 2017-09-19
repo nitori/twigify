@@ -1,9 +1,0 @@
-
-{% macro columns(cell, rowLoop, colLoop, data, flexdata) %}
-    {% if rowLoop.first and (flexdata.sDEF.acctables_headerpos == 'top' or (colLoop.first and flexdata.sDEF.acctables_headerpos == 'left')) or colLoop.first and flexdata.sDEF.acctables_headerpos == 'left' %}
-        {% set table_type = 'th' %}
-    {% else %}
-        {% set table_type = 'td' %}
-    {% endif %}
-    <{{ table_type }}>{% if cell %}{{ cell|nl2br }}{% else %}&nbsp;{% endif %}</{{ table_type }}>
-{% endmacro %}
