@@ -10,6 +10,7 @@ namespace LFM\Twigify\Twigs;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Extbase\Service\ImageService;
 
 class MediaTwig extends AbstractTwig
 {
@@ -60,5 +61,15 @@ class MediaTwig extends AbstractTwig
         }
         $tag .= '>';
         return new \Twig_Markup($tag, $GLOBALS['TSFE']->renderCharset);
+    }
+
+    /**
+     * @return ImageService
+     */
+    protected function getImageService()
+    {
+        /** @var ImageService $imageService */
+        $imageService = $this->objectManager->get(ImageService::class);
+        return $imageService;
     }
 }

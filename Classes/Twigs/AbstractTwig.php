@@ -8,8 +8,6 @@
 
 namespace LFM\Twigify\Twigs;
 
-use TYPO3\CMS\Extbase\Service\ImageService;
-
 abstract class AbstractTwig implements TwigInterface
 {
     /**
@@ -34,16 +32,6 @@ abstract class AbstractTwig implements TwigInterface
     public function __construct($view, array $options = []) {
         $this->view = $view;
         $this->objectManager = $this->view->getObjectManager();
-    }
-
-    /**
-     * Return an instance of ImageService
-     *
-     * @return ImageService
-     */
-    protected function getImageService()
-    {
-        return $this->objectManager->get(ImageService::class);
     }
 
     /**
