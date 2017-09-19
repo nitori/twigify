@@ -40,29 +40,29 @@ abstract class AbstractExtension extends \Twig_Extension
     public function initialiseTwigs() {
     }
 
-    public function getTwig($name) {
-        if(!isset($this->twigs[$name])) {
-            return false;
+    public function getTwigs() {
+        foreach ($this->twigs as $name => $twig) {
+            if (is_string($this->twigs[$name])) {
+                $this->twigs[$name] = new $this->twigs[$name]($this->view);
+            }
         }
-        if(is_string($this->twigs[$name])) {
-            $this->twigs[$name] = new $this->twigs[$name]($this->view);
-        }
-        return $this->twigs[$name];
+        return $this->twigs;
     }
 
-    public function getFilter($name) {
-        $twig = $this->getTwig($name);
-        if($twig) {
-            return new \Twig_SimpleFilter($name, [$twig, 'render']);
+    public function getFilters()
+    {
+        $filters = [];
+        foreach ($this->getTwigs() as $name => $twig) {
+            $filters[] = new \Twig_Filter($name, [$twig, 'render']);
         }
-        return false;
+        return $filters;
     }
 
-    public function getFunction($name) {
-        $twig = $this->getTwig($name);
-        if($twig) {
-            return new \Twig_SimpleFunction($name, [$twig, 'render']);
+    public function getFunctions() {
+        $filters = [];
+        foreach ($this->getTwigs() as $name => $twig) {
+            $filters[] = new \Twig_Function($name, [$twig, 'render']);
         }
-        return false;
+        return $filters;
     }
 }
