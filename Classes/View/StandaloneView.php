@@ -17,6 +17,16 @@ use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
 class StandaloneView extends AbstractTemplateView
 {
+    /**
+     * @var array
+     */
+    protected $variables = [];
+
+    /**
+     * @var \Twig_Template
+     */
+    protected $twigTemplate;
+
     public function __construct()
     {
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
@@ -35,5 +45,31 @@ class StandaloneView extends AbstractTemplateView
         $controllerContext->setRequest($request);
         $controllerContext->setUriBuilder($uriBuilder);
         $this->setControllerContext($controllerContext);
+    }
+
+    public function assign($name, $value)
+    {
+        $this->variables[$name] = $value;
+    }
+
+    public function assignMultiple($variables)
+    {
+        foreach ($variables as $name => $value) {
+            $this->assign($name, $value);
+        }
+    }
+
+    /**
+     * @param \Twig_Template $template
+     */
+    public function setTwigTemplate($template)
+    {
+        $this->twigTemplate = $template;
+    }
+
+    public function render()
+    {
+        $this->variables['_all'] = $this->variables;
+        return $this->twigTemplate->render($this->variables);
     }
 }

@@ -23,15 +23,30 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
             $conf = [];
         }
 
-        $view = new StandaloneView();
         $variables = $this->getContentObjectVariables($conf);
         $variables = $this->contentDataProcessor->process($this->cObj, $conf, $variables);
 
         $templatePaths = [];
-        if(is_array($conf['templateRootPaths.'])) {
+        if (is_array($conf['templateRootPaths.'])) {
             foreach ($conf['templateRootPaths.'] as $path) {
                 if (trim($path)) {
                     $templatePaths[] = GeneralUtility::getFileAbsFileName($path);
+                }
+            }
+        }
+        $macroPaths = [];
+        if (is_array($conf['macroRootPaths.'])) {
+            foreach ($conf['macroRootPaths.'] as $path) {
+                if (trim($path)) {
+                    $macroPaths[] = GeneralUtility::getFileAbsFileName($path);
+                }
+            }
+        }
+        $layoutPaths = [];
+        if (is_array($conf['layoutRootPaths.'])) {
+            foreach ($conf['layoutRootPaths.'] as $path) {
+                if (trim($path)) {
+                    $layoutPaths[] = GeneralUtility::getFileAbsFileName($path);
                 }
             }
         }
@@ -43,23 +58,31 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
         $backend = $cacheInstance->getBackend();
 
         $loader = new \Twig_Loader_Filesystem($templatePaths);
+        $loader->setPaths($macroPaths, 'macro');
+        $loader->setPaths($layoutPaths, 'layout');
+
         $twig = new \Twig_Environment($loader, [
-            'cache' => $backend->getCacheDirectory(),
+            //'cache' => $backend->getCacheDirectory(),
             'auto_reload' => true,
             'base_template_class' => LfmTemplate::class,
         ]);
 
-        $lfmExtension = new LfmExtension();
-        $lfmExtension->setView($view);
-        $lfmExtension->initialiseTwigs();
+        $this->view = new StandaloneView();
 
+        $lfmExtension = new LfmExtension();
+        $lfmExtension->setView($this->view);
+        $lfmExtension->initialiseTwigs();
         $twig->addExtension($lfmExtension);
 
         $format = $conf['format'] ? $conf['format'] : 'twig';
         $template = $twig->loadTemplate($conf['templateName'].'.'.$format);
 
-        $variables['_all'] = $variables;
-        $source = $template->render($variables);
+        $this->view->setTwigTemplate($template);
+        $this->view->assignMultiple($variables);
+        $this->assignSettings($conf);
+
+
+        $source = $this->view->render();
 
         foreach($lfmExtension->getDebugArguments() as $arguments) {
             DebuggerUtility::var_dump(...$arguments);

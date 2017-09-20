@@ -1,0 +1,33 @@
+
+{% import "@macro/Header.twig" as headers %}
+
+{% if data.frame_class != 'none' %}
+    <div id="c{{ data.uid }}" class="frame frame-{{ data.frame_class }} frame-type-{{ data.CType }} frame-layout-{{ data.layout }}
+        {%- if data.space_before_class %} frame-space-before-{{ data.space_before_class }}{% endif %}
+        {%- if data.space_after_class %} frame-space-after-{{ data.space_after_class }}{% endif %}">
+{% else %}
+    <a id="c{{ data.uid }}"></a>
+    {% if data._LOCALIZED_UID %}
+        <a id="c{{ data._LOCALIZED_UID }}"></a>
+    {% endif %}
+    {% if data.space_before_class %}
+        <div class="frame-space-before-{{ data.space_before_class }}"></div>
+    {% endif %}
+{% endif %}
+
+{% if data._LOCALIZED_UID %}
+    <a id="c{{ data._LOCALIZED_UID }}"></a>
+{% endif %}
+
+        {{ _all|debug }}
+        {{ headers.header(data.header, data.header_layout, data.header_position, data.header_link, settings.defaultHeaderType) }}
+        {% block main %}{% endblock %}
+
+
+{% if data.frame_class != 'none' %}
+    </div>
+{% else %}
+    {% if data.space_after_class %}
+        <div class="frame-space-after-{{ data.space_after_class }}"></div>
+    {% endif %}
+{% endif %}

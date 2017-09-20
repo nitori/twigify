@@ -1,0 +1,10 @@
+
+{% macro header(header, layout, positionClass, link, default) %}
+    {% if header and layout in [1, 2, 3, 4, 5, 6] %}
+        <h{{layout}} class="
+            {%- if data.header_position %}ce-headline-{{ data.header_position }}{% endif %}
+            {%- if data.header_class %} {{ data.header_class }}{% endif %}">{data.header}</h{{data.header_layout}}>
+    {% elseif header and default %}
+        {{ _self.header(header, default, positionClass, link, '') }}
+    {% endif %}
+{% endmacro %}

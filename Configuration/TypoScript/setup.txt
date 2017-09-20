@@ -1,23 +1,18 @@
 
-lib.fluidContent = TWIGTEMPLATE
-lib.fluidContent {
+# lib.contentElement >
+lib.contentElement = TWIGTEMPLATE
+lib.contentElement {
     templateRootPaths >
-    templateRootPaths.10 = EXT:twigify/Resources/Private/Content/Templates/
-    rootPaths >
-    rootPaths.10 = EXT:twigify/Resources/Private/Content/
-}
+    partialRootPaths >
+    layoutRootPaths >
 
-#tt_content.table = TWIGTEMPLATE
-#tt_content.textmedia = TWIGTEMPLATE
-#tt_content.header = TWIGTEMPLATE
-#tt_content.html = TWIGTEMPLATE
-
-tt_content.table {
-    dataProcessing {
-        20 = LFM\Twigify\DataProcessing\FlexFormProcessor
-        20 {
-            fieldName = pi_flexform
-            as = flexdata
-        }
+    templateRootPaths {
+        5 = EXT:twigify/Resources/Private/Content/Templates/
+    }
+    macroRootPaths {
+        5 = EXT:twigify/Resources/Private/Content/Macros/
+    }
+    layoutRootPaths {
+        5 = EXT:twigify/Resources/Private/Content/Layouts/
     }
 }
