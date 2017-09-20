@@ -1,11 +1,36 @@
 
-{% macro header(header, layout, positionClass, link, default) %}
-    {{ debug(all()) }}
-    {% if header and layout in ['1', '2', '3', '4', '5', '6'] %}
-        <h{{layout}} class="
-            {%- if data.header_position %}ce-headline-{{ data.header_position }}{% endif %}
-            {%- if data.header_class %} {{ data.header_class }}{% endif %}">{data.header}</h{{data.header_layout}}>
-    {% elseif header and default %}
-        {{ _self.header(header, default, positionClass, link, '') }}
+{% macro header(header, layout, positionClass, headerClass, link, default) %}
+    {% import _self as self %}
+    {% if header %}
+        {% if layout in [1, 2, 3, 4, 5, 6] %}
+            <h{{layout}} class="
+                {%- if positionClass %}ce-headline-{{ positionClass }}{% endif %}
+                {%- if headerClass %} h{{ headerClass }}{% endif %}">{{ header }}</h{{ layout }}>
+        {% elseif default %}
+            {{ self.header(header, default, positionClass, headerClass, link, '') }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro subheader(header, layout, positionClass, headerClass, default) %}
+    {% import _self as self %}
+    {% if header %}
+        {% if layout in [1, 2, 3, 4, 5] %}
+            <h{{ layout + 1 }} class="
+                {%- if positionClass %}ce-headline-{{ positionClass }}{% endif %}
+                {%- if headerClass in [1, 2, 3, 4, 5] %} h{{ headerClass + 1 }}{% else %} h{{ headerClass }}{% endif %}">{{ header }}</h{{ layout + 1 }}>
+        {% elseif default %}
+            {{ self.subheader(header, default, positionClass, headerClass, '') }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro date(date, positionClass) %}
+    {% if date %}
+        <p class="{{ positionClass }}">
+            <time datetime="{{ date|dateformat('%Y-%m-%d') }}">
+                {{ date|dateformat('%B %e, %Y') }}
+            </time>
+        </p>
     {% endif %}
 {% endmacro %}

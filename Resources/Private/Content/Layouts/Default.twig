@@ -19,7 +19,13 @@
     <a id="c{{ data._LOCALIZED_UID }}"></a>
 {% endif %}
 
-        {{ headers.header(data.header, data.header_layout, data.header_position, data.header_link, settings.defaultHeaderType) }}
+        {% if data.header or data.subheader or data.date %}
+            <header>
+                {{ headers.header(data.header, data.header_layout, data.header_position, data.header_class, data.header_link, settings.defaultHeaderType) }}
+                {{ headers.subheader(data.subheader, data.header_layout, data.header_position, data.header_class, settings.defaultHeaderType) }}
+                {{ headers.date(data.date, data.header_position) }}
+            </header>
+        {% endif %}
         {% block main %}{% endblock %}
 
 

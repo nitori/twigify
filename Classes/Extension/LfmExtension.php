@@ -21,6 +21,7 @@ class LfmExtension extends AbstractExtension
             'get_url' => \LFM\Twigify\Twigs\GetUrlTwig::class,
             'media' => \LFM\Twigify\Twigs\MediaTwig::class,
             'page_info' => \LFM\Twigify\Twigs\PageInfoTwig::class,
+            'dateformat' => \LFM\Twigify\Twigs\DateFormatTwig::class,
         ];
     }
 
