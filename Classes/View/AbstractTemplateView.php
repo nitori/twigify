@@ -37,6 +37,11 @@ abstract class AbstractTemplateView
     protected $twigEnvironment;
 
     /**
+     * @var \Twig_Template
+     */
+    protected $twigTemplate;
+
+    /**
      * @var array
      */
     protected $variables = [];
@@ -91,10 +96,5 @@ abstract class AbstractTemplateView
         foreach ($variables as $name => $value) {
             $this->assign($name, $value);
         }
-    }
-
-    public function getVariables()
-    {
-        return $this->variables;
     }
 }

@@ -22,11 +22,6 @@ class StandaloneView extends AbstractTemplateView
 {
 
     /**
-     * @var \Twig_Template
-     */
-    protected $twigTemplate;
-
-    /**
      * @var LfmExtension
      */
     protected $extension;

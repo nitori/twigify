@@ -11,9 +11,7 @@ namespace LFM\Twigify\Twigs;
 
 class AllTwig extends AbstractTwig
 {
-    protected $debugArguments = [];
-
     public function render() {
-        return $this->view->getVariables();
+        return $this->twigContext;
     }
 }
