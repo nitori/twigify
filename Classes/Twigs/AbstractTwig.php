@@ -26,6 +26,16 @@ abstract class AbstractTwig implements TwigInterface
     protected $renderingContext;
 
     /**
+     * @var array
+     */
+    protected $twigContext;
+
+    /**
+     * @var \Twig_Environment
+     */
+    protected $twigEnvironment;
+
+    /**
      * @param $view \LFM\Twigify\View\AbstractTemplateView
      * @param $options array
      */
@@ -52,5 +62,14 @@ abstract class AbstractTwig implements TwigInterface
 
     public function __toString() {
         return '<'.get_class($this).'>';
+    }
+
+    public function _render($env, $context, ...$args)
+    {
+        $this->twigEnvironment = $env;
+        $this->twigContext = $context;
+        if (method_exists($this, 'render')) {
+            return $this->render(...$args);
+        }
     }
 }

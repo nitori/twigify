@@ -53,7 +53,7 @@ abstract class AbstractExtension extends \Twig_Extension
     {
         $filters = [];
         foreach ($this->getTwigs() as $name => $twig) {
-            $filters[] = new \Twig_Filter($name, [$twig, 'render']);
+            $filters[] = new \Twig_Filter($name, [$twig, '_render'], ['needs_context' => true, 'needs_environment' => true]);
         }
         return $filters;
     }
@@ -61,7 +61,7 @@ abstract class AbstractExtension extends \Twig_Extension
     public function getFunctions() {
         $filters = [];
         foreach ($this->getTwigs() as $name => $twig) {
-            $filters[] = new \Twig_Function($name, [$twig, 'render']);
+            $filters[] = new \Twig_Function($name, [$twig, '_render'], ['needs_context' => true, 'needs_environment' => true]);
         }
         return $filters;
     }
