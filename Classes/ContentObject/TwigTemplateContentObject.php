@@ -2,6 +2,7 @@
 
 namespace LFM\Twigify\ContentObject;
 
+use LFM\Twigify\Extension\LfmExtension;
 use LFM\Twigify\Template\LfmTemplate;
 use LFM\Twigify\View\StandaloneView;
 use Twig\Environment;
@@ -66,7 +67,9 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
             'base_template_class' => LfmTemplate::class,
         ]);
 
-        $this->view = new StandaloneView($twig);
+        $this->view = new StandaloneView($twig, [
+            GeneralUtility::makeInstance(LfmExtension::class),
+        ]);
 
         $format = $conf['format'] ? $conf['format'] : 'twig';
         $template = $twig->loadTemplate($conf['templateName'].'.'.$format);

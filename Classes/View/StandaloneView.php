@@ -8,8 +8,6 @@
 
 namespace LFM\Twigify\View;
 
-use LFM\Twigify\Extension\LfmExtension;
-use Twig\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
@@ -20,23 +18,20 @@ use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
 class StandaloneView extends AbstractTemplateView
 {
-
-    /**
-     * @var LfmExtension
-     */
-    protected $extension;
-
     /**
      * StandaloneView constructor.
-     * @param Environment $environment
+     * @param \Twig_Environment $environment
+     * @param \Twig_Extension[] $extensions
      */
-    public function __construct($environment)
+    public function __construct($environment, $extensions=[])
     {
         $this->twigEnvironment = $environment;
-        $this->extension = new LfmExtension();
-        $this->extension->setView($this);
-        $this->extension->initialiseTwigs();
-        $this->twigEnvironment->addExtension($this->extension);
+
+        foreach ($extensions as $extension) {
+            $extension->setView($this);
+            $extension->initialiseTwigs();
+            $this->twigEnvironment->addExtension($extension);
+        }
 
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->setRenderingContext($this->objectManager->get(RenderingContext::class));
@@ -67,8 +62,13 @@ class StandaloneView extends AbstractTemplateView
     public function render()
     {
         $result = $this->twigTemplate->render($this->variables);
-        foreach($this->extension->getDebugArguments() as $arguments) {
-            DebuggerUtility::var_dump(...$arguments);
+        foreach ($this->twigEnvironment->getExtensions() as $extension) {
+            if (!method_exists($extension, 'getDebugArguments')) {
+                continue;
+            }
+            foreach ($extension->getDebugArguments() as $arguments) {
+                DebuggerUtility::var_dump(...$arguments);
+            }
         }
         return $result;
     }
