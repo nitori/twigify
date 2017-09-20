@@ -32,14 +32,14 @@ abstract class AbstractTemplateView
     protected $baseRenderingContext;
 
     /**
-     * @var \Twig_LoaderInterface
-     */
-    protected $twigLoader;
-
-    /**
      * @var \Twig_Environment
      */
     protected $twigEnvironment;
+
+    /**
+     * @var array
+     */
+    protected $variables = [];
 
     /**
      * @return \TYPO3\CMS\Extbase\Object\ObjectManager
@@ -79,5 +79,22 @@ abstract class AbstractTemplateView
     public function setControllerContext($controllerContext)
     {
         $this->controllerContext = $controllerContext;
+    }
+
+    public function assign($name, $value)
+    {
+        $this->variables[$name] = $value;
+    }
+
+    public function assignMultiple($variables)
+    {
+        foreach ($variables as $name => $value) {
+            $this->assign($name, $value);
+        }
+    }
+
+    public function getVariables()
+    {
+        return $this->variables;
     }
 }

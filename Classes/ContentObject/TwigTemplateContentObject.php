@@ -2,13 +2,12 @@
 
 namespace LFM\Twigify\ContentObject;
 
-use LFM\Twigify\Extension\LfmExtension;
-
 use LFM\Twigify\Template\LfmTemplate;
 use LFM\Twigify\View\StandaloneView;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\ContentObject\FluidTemplateContentObject;
 
 class TwigTemplateContentObject extends FluidTemplateContentObject
@@ -57,22 +56,17 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
         /** @var \TYPO3\CMS\Core\Cache\Backend\FileBackend $backend */
         $backend = $cacheInstance->getBackend();
 
-        $loader = new \Twig_Loader_Filesystem($templatePaths);
+        $loader = new FilesystemLoader($templatePaths);
         $loader->setPaths($macroPaths, 'macro');
         $loader->setPaths($layoutPaths, 'layout');
 
-        $twig = new \Twig_Environment($loader, [
+        $twig = new Environment($loader, [
             //'cache' => $backend->getCacheDirectory(),
             'auto_reload' => true,
             'base_template_class' => LfmTemplate::class,
         ]);
 
-        $this->view = new StandaloneView();
-
-        $lfmExtension = new LfmExtension();
-        $lfmExtension->setView($this->view);
-        $lfmExtension->initialiseTwigs();
-        $twig->addExtension($lfmExtension);
+        $this->view = new StandaloneView($twig);
 
         $format = $conf['format'] ? $conf['format'] : 'twig';
         $template = $twig->loadTemplate($conf['templateName'].'.'.$format);
@@ -81,12 +75,7 @@ class TwigTemplateContentObject extends FluidTemplateContentObject
         $this->view->assignMultiple($variables);
         $this->assignSettings($conf);
 
-
         $source = $this->view->render();
-
-        foreach($lfmExtension->getDebugArguments() as $arguments) {
-            DebuggerUtility::var_dump(...$arguments);
-        }
 
         return $source;
     }

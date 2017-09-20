@@ -19,7 +19,6 @@
     <a id="c{{ data._LOCALIZED_UID }}"></a>
 {% endif %}
 
-        {{ _all|debug }}
         {{ headers.header(data.header, data.header_layout, data.header_position, data.header_link, settings.defaultHeaderType) }}
         {% block main %}{% endblock %}
 

@@ -9,8 +9,6 @@
 namespace LFM\Twigify\Template;
 
 
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-
 abstract class LfmTemplate extends \Twig_Template
 {
 }

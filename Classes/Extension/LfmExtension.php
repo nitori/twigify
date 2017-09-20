@@ -13,6 +13,7 @@ class LfmExtension extends AbstractExtension
 
     public function initialiseTwigs() {
         $this->twigs = [
+            'all' => \LFM\Twigify\Twigs\AllTwig::class,
             'debug' => \LFM\Twigify\Twigs\DebugTwig::class,
             'typolink' => \LFM\Twigify\Twigs\TypolinkTwig::class,
             'rte' => \LFM\Twigify\Twigs\RteTwig::class,

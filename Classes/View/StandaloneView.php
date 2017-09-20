@@ -8,8 +8,11 @@
 
 namespace LFM\Twigify\View;
 
+use LFM\Twigify\Extension\LfmExtension;
+use Twig\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext;
 use TYPO3\CMS\Extbase\Mvc\Web\Request as WebRequest;
@@ -17,18 +20,29 @@ use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 
 class StandaloneView extends AbstractTemplateView
 {
-    /**
-     * @var array
-     */
-    protected $variables = [];
 
     /**
      * @var \Twig_Template
      */
     protected $twigTemplate;
 
-    public function __construct()
+    /**
+     * @var LfmExtension
+     */
+    protected $extension;
+
+    /**
+     * StandaloneView constructor.
+     * @param Environment $environment
+     */
+    public function __construct($environment)
     {
+        $this->twigEnvironment = $environment;
+        $this->extension = new LfmExtension();
+        $this->extension->setView($this);
+        $this->extension->initialiseTwigs();
+        $this->twigEnvironment->addExtension($this->extension);
+
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->setRenderingContext($this->objectManager->get(RenderingContext::class));
         $this->setRenderingContext($this->objectManager->get(RenderingContext::class));
@@ -47,18 +61,6 @@ class StandaloneView extends AbstractTemplateView
         $this->setControllerContext($controllerContext);
     }
 
-    public function assign($name, $value)
-    {
-        $this->variables[$name] = $value;
-    }
-
-    public function assignMultiple($variables)
-    {
-        foreach ($variables as $name => $value) {
-            $this->assign($name, $value);
-        }
-    }
-
     /**
      * @param \Twig_Template $template
      */
@@ -69,7 +71,10 @@ class StandaloneView extends AbstractTemplateView
 
     public function render()
     {
-        $this->variables['_all'] = $this->variables;
-        return $this->twigTemplate->render($this->variables);
+        $result = $this->twigTemplate->render($this->variables);
+        foreach($this->extension->getDebugArguments() as $arguments) {
+            DebuggerUtility::var_dump(...$arguments);
+        }
+        return $result;
     }
 }
